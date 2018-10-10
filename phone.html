@@ -60,7 +60,7 @@
 				</tr>
 	        </table>
         </div>
-        <div class="col-md-6" id="phone">
+        <div class="col-md-6" id="phone" hidden="">
         	<table class="bg-danger">
         		<tr>
         			<td colspan="5" style="padding:20px">
@@ -159,7 +159,7 @@ b=new Audio("sound/lowcredit.mp3");
                if(line=="net3"){if (seconds==2) {secondList=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Please wait...';inputLocker='off';}if (seconds==0 && secondList!=0) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][0];line="net4";inputLocker='off';}else if(seconds==0 && secondList==0){document.getElementById('screen').innerHTML=simulatorArrayLists[0][0];line="net2";}}
 
                if (line=="net5"){if (seconds==2) {thirdList=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Please wait...';inputLocker='off';}if (seconds==0) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][0];if (firstList==2) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList];} line="net6";inputLocker='off';}}
-               if (line=="net7"){if (seconds==2) {fourtList=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Please wait...';inputLocker='off';}if (seconds==0) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList];if (firstList==3) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][1];} line="net8";inputLocker='off';}}
+               if (line=="net7"){if (seconds==2) {fourtList=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Please wait...';inputLocker='off';}if (seconds==0) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList];if (firstList==3) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][1];} if (secondList==5) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList][0];} line="net8";inputLocker='off';}}
                if (line=="net9"){if (seconds==2) {fifthList=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Please wait...';inputLocker='off';}if (seconds==0) {document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList][fifthList];line="net10";inputLocker='off';}}
     }	
 	function next() {
