@@ -35,13 +35,13 @@ var btn=document.getElementById('myBtn');
 				b+=p;
 			}
 			// var b=b.substring(0,4)+'-'+b.substring(4,8)+'-'+b.substring(8,12)+'-'+b.substring(12,16);
-			cardlist.push([b,"Unuse"]);
+			cardlist.push([b]);
 		}
 		document.getElementById('show').innerHTML=cardlist.join('<br/>');
 		 localStorage.setItem('Voucher',JSON.stringify(cardlist));
 		 retrievedData=localStorage.getItem('Voucher');
 		 card=JSON.parse(retrievedData);
-		  alert(card[1][1]);
+		  // alert(card[1][1]);
 	}
 	function dos(){
 		    retrievedData=localStorage.getItem('Voucher');

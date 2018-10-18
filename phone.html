@@ -124,6 +124,7 @@ callSec=-1;
 a=new Audio("sound/champ.mp3");
 b=new Audio("sound/lowcredit.mp3");
 	function get(u) {   
+		inputLocker="on";
 		if(document.getElementById('screen').innerHTML==''){
 			document.getElementById('screen').innerHTML=u;}
 		else{document.getElementById('screen').innerHTML+=u;}
@@ -142,15 +143,15 @@ b=new Audio("sound/lowcredit.mp3");
 		setTimeout('go()',1000);
 
         if (document.getElementById('screen').innerHTML.length==11) {callInput=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Calling....\n'+callInput;inputLocker='off';}
-          else if(document.getElementById('screen').innerHTML=='Calling....\n'+callInput && localStorage.Balance>0 && seconds==0){document.getElementById('phone').removeAttribute('hidden',true);document.getElementById('iphone').innerHTML='Incoming call from\nAlcatel Holder';a.play();inputLocker='off';}
-          else if (document.getElementById('screen').innerHTML=='Calling....\n'+callInput && localStorage.Balance<=0 && seconds==0) {b.play();inputLocker='off';b.onended=function(){b.pause();document.getElementById('screen').innerHTML='';return;}}
+		    if(document.getElementById('screen').innerHTML=='Calling....\n'+callInput && localStorage.Balance>0 && seconds==0){document.getElementById('phone').removeAttribute('hidden',true);document.getElementById('iphone').innerHTML='Incoming call from\nAlcatel Holder';a.play();inputLocker='off';}
+		    else if (document.getElementById('screen').innerHTML=='Calling....\n'+callInput && localStorage.Balance<=0 && seconds==0) {b.play();inputLocker='off';b.onended=function(){b.pause();cut();}}
 
         if (document.getElementById('screen').innerHTML.length==22){input=document.getElementById('screen').innerHTML;document.getElementById('screen').innerHTML='Loading...';inputLocker='off';input=input.slice(5,21);search=new RegExp(input);for (i = 0; i < card.length; i++) {sea=search.test(card);}}
-          else if (document.getElementById('screen').innerHTML=='Loading...' && sea==true && seconds==0) {for(io=0;io<card.length;io++){document.getElementById('screen').innerHTML='You have successfully recharge your account with N100';localStorage.Balance=parseInt(localStorage.Balance)+100;inputLocker='off';}}
-          else if (document.getElementById('screen').innerHTML=='Loading...' && sea==false && seconds==0) {for(io=0;io<card.length;io++){document.getElementById('screen').innerHTML='Incorrect PIN entered,please check and try again';inputLocker='off';alert(card[io][1]);}}
+            if (document.getElementById('screen').innerHTML=='Loading...' && sea==true && seconds==0) {if (localStorage.Balance=='NaN') {localStorage.setItem('Balance',0)}document.getElementById('screen').innerHTML='You have successfully recharge your account with N100';localStorage.Balance=parseInt(localStorage.Balance)+100;inputLocker='off';}
+            else if (document.getElementById('screen').innerHTML=='Loading...' && sea==false && seconds==0) {document.getElementById('screen').innerHTML='Incorrect PIN entered,please check and try again';inputLocker='off';}
 		
         if(document.getElementById('screen').innerHTML=='*556#'){acctBals='';document.getElementById('screen').innerHTML='Requesting...';inputLocker='off';for(i=0;i<acctBal.length;i++){h=acctBal[i];acctBals+=h;if(i==4) {break;}}}
-          else if(document.getElementById('screen').innerHTML=='Requesting...' && seconds==0){document.getElementById('screen').innerHTML='Your main acct balance is : N'+acctBals;inputLocker='off';}
+            else if(document.getElementById('screen').innerHTML=='Requesting...' && seconds==0){document.getElementById('screen').innerHTML='Your main acct balance is : N'+acctBals;inputLocker='off';}
 
         if(line=="net" && document.getElementById('screen').innerHTML=='*123#'){document.getElementById('screen').innerHTML='Please wait...';inputLocker='off';}
                if(document.getElementById('screen').innerHTML=='Please wait...' && seconds==0){document.getElementById('screen').innerHTML=simulatorArrayLists[0][0];inputLocker="off";}
@@ -199,7 +200,7 @@ b=new Audio("sound/lowcredit.mp3");
 		if(inputLocker=='on'){
 	    var size=document.getElementById('screen').innerHTML.length;
 	    document.getElementById('screen').innerHTML=document.getElementById('screen').innerHTML.slice(0,size-1);}
-	    else{cut();}
+	    // else{cut();}
 	}
 </script>
 </body>	
