@@ -121,6 +121,8 @@ callInput='';
 callHour=0;
 callMin=0;
 callSec=-1;
+amtSec=-1;
+amtUsed='';
 a=new Audio("sound/champ.mp3");
 b=new Audio("sound/lowcredit.mp3");
 	function get(u) {   
@@ -136,8 +138,6 @@ b=new Audio("sound/lowcredit.mp3");
 		}
 	}
 	function go() {
-	    // callNumbers=localStorage.getItem('Number'); 
-	    // localStorage.setItem('Balance',0);
 	    acctBal=localStorage.Balance;
 	    retrievedData=localStorage.getItem('Voucher');
 	    card=JSON.parse(retrievedData);
@@ -335,7 +335,6 @@ b=new Audio("sound/lowcredit.mp3");
 	    	document.getElementById('screen').innerHTML="";
 	    	line="net9";
 	    }
-	    // alert(line);
 	}
     function pick() {
     	inputLocker="off";
@@ -345,6 +344,7 @@ b=new Audio("sound/lowcredit.mp3");
     	else{
 	    	a.pause();
 	    	callSec++;
+	    	amtSec++;
 	        if (callSec==60) {
 	        	callMin++;
 	        	callSec=0;
@@ -357,9 +357,12 @@ b=new Audio("sound/lowcredit.mp3");
 	        document.getElementById('iphone').innerHTML=callHour+":"+callMin+":"+callSec;
 	        if(document.getElementById('screen').innerHTML==callHour+":"+callMin+":"+callSec) {
 	        	inputLocker='off';
-	        	localStorage.Balance-=0.11;
+	            localStorage.Balance-=0.11;
+                amtUsed = amtSec * 0.11;
+	            console.log(amtUsed);
 	        	if (localStorage.Balance<=0) {
 	        		localStorage.Balance=0;
+	        		alert('The duration of your last call is'+' '+amtSec+' '+'secs. and you have been charged with N'+amtUsed+' '+'for it.');
 	        	}
 	        }
 	        if (localStorage.Balance==0) {
@@ -385,7 +388,7 @@ b=new Audio("sound/lowcredit.mp3");
 			clearTimeout(tim);
 			callSec=-1;
 		}
-		document.getElementById('screen').innerHTML='';
+		document.getElementById('screen').innerHTML='The duration of your last call is'+' '+amtSec+' '+'secs. and you have been charged with N'+amtUsed+' '+'for it.';
 	    document.getElementById('iphone').innerHTML='';
 	    document.getElementById('phone').setAttribute('hidden',true)
 	    return;
