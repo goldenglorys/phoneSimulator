@@ -180,6 +180,7 @@ b=new Audio("sound/lowcredit.mp3");
         	}
         }
         if (document.getElementById('screen').innerHTML=='Loading...' && sea==true && seconds==0) {
+        	inputLocker='off';
         	if (localStorage.Balance=='NaN') {
         		localStorage.setItem('Balance',0)
         	}
@@ -187,14 +188,12 @@ b=new Audio("sound/lowcredit.mp3");
 				if (input==card[v][0] && card[v][1]=='New') {
 					card[v][1]='Used';
 					localStorage.setItem('Voucher',JSON.stringify(card));
-		        	localStorage.Balance=parseInt(localStorage.Balance)+100;
-		        	document.getElementById('screen').innerHTML='You have successfully recharge your account with N100';	
-		        	inputLocker='off';
+		        	localStorage.Balance=parseInt(localStorage.Balance)+card[v][2];
+		        	document.getElementById('screen').innerHTML='You have successfully recharge your account with N'+card[v][2];
 					break;
 				}
 				else {
 					document.getElementById('screen').innerHTML='Sorry,but this airtime has already been used by you.';
-					break;
 				}
             }
         }

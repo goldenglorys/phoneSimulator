@@ -18,23 +18,23 @@
 </div>
 </body>
 <script type="text/javascript">
-// cardAmt=[50,100,200,400,500,1000];
-// for (i = 0; i < cardAmt.length; i++) {
- // 	rand=cardAmt[Math.floor(Math.random() * cardAmt.length)];
- // }
 var btn=document.getElementById('myBtn');
 	btn.onclick = function get() {
 		var cardlist=[];
 		var va=val.value;
+		cardAmt=[50,100,200,400,500,1000];
 		for(i=1;i<=va;i++) {
 			var b='';
 			for(t=1;t<=16;t++) {
 				r=Math.random()*9;
 				p=Math.ceil(r);
 				b+=p;
+				for (amt = 0; amt < cardAmt.length; amt++) {
+			 	rand=cardAmt[Math.floor(Math.random() * cardAmt.length)];
+			    }
 			}
 			// var b=b.substring(0,4)+'-'+b.substring(4,8)+'-'+b.substring(8,12)+'-'+b.substring(12,16);
-			cardlist.push([b,'New']);
+			cardlist.push([b,'New',rand]);
 		}
 		document.getElementById('show').innerHTML=cardlist.join('<br/>');
 		 localStorage.setItem('Voucher',JSON.stringify(cardlist));
@@ -61,6 +61,7 @@ var btn=document.getElementById('myBtn');
 		    	alert(card);
 		    	alert(card[a]);
 		    	alert(card[a][1]);
+		    	alert(typeof(card[a][2]));
 		    }
 	}
 </script>
