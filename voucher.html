@@ -12,7 +12,9 @@
     <input type="text" name="" id="val" class="btn">
 	<button id="myBtn" class="btn btn-dark">Generate</button>
 	<div id="show" class="card bg-secondary col-md-3 mt-3"></div>
+	<div><input type="text" id="testing"></div>
 	<button onclick="dos()">h</button>
+	<button onclick="t()">testing</button>
 </div>
 </body>
 <script type="text/javascript">
@@ -21,36 +23,45 @@
  // 	rand=cardAmt[Math.floor(Math.random() * cardAmt.length)];
  // }
 var btn=document.getElementById('myBtn');
-	btn.onclick = function get()
-	{
+	btn.onclick = function get() {
 		var cardlist=[];
 		var va=val.value;
-		for(i=1;i<=va;i++)
-		{
+		for(i=1;i<=va;i++) {
 			var b='';
-			for(t=1;t<=16;t++)
-			{
+			for(t=1;t<=16;t++) {
 				r=Math.random()*9;
 				p=Math.ceil(r);
 				b+=p;
 			}
 			// var b=b.substring(0,4)+'-'+b.substring(4,8)+'-'+b.substring(8,12)+'-'+b.substring(12,16);
-			cardlist.push([b]);
+			cardlist.push([b,'New']);
 		}
 		document.getElementById('show').innerHTML=cardlist.join('<br/>');
 		 localStorage.setItem('Voucher',JSON.stringify(cardlist));
 		 retrievedData=localStorage.getItem('Voucher');
 		 card=JSON.parse(retrievedData);
-		  // alert(card[1][1]);
 	}
 	function dos(){
 		    retrievedData=localStorage.getItem('Voucher');
 		    card=JSON.parse(retrievedData);
 			for(v=0;v<card.length;v++){
-		 	card[v][1]="Used";
-		 	localStorage.setItem('Voucher',card);
-		    alert(card[v][1]);
+				if (testing.value==card[v][0]) {
+					alert('in good shape');
+					card[v][1]='Used';	
+					localStorage.setItem('Voucher',JSON.stringify(card));
+					break;
+				}
+				else{alert('bad shape');}
 		 }
+	}
+	function t() {
+		    retrievedData=localStorage.getItem('Voucher');
+		    card=JSON.parse(retrievedData);
+		    for (a=0;a<card.length;a++){
+		    	alert(card);
+		    	alert(card[a]);
+		    	alert(card[a][1]);
+		    }
 	}
 </script>
 </html>

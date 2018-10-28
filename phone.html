@@ -141,7 +141,6 @@ b=new Audio("sound/lowcredit.mp3");
 	    acctBal=localStorage.Balance;
 	    retrievedData=localStorage.getItem('Voucher');
 	    card=JSON.parse(retrievedData);
-	    // alert(card[]);
 	    if (document.getElementById('screen').innerHTML=='') {
 	    	return;
 	    }
@@ -184,9 +183,20 @@ b=new Audio("sound/lowcredit.mp3");
         	if (localStorage.Balance=='NaN') {
         		localStorage.setItem('Balance',0)
         	}
-        	document.getElementById('screen').innerHTML='You have successfully recharge your account with N100';
-        	localStorage.Balance=parseInt(localStorage.Balance)+100;
-        	inputLocker='off';
+		    for(v=0;v<card.length;v++){
+				if (input==card[v][0] && card[v][1]=='New') {
+					card[v][1]='Used';
+					localStorage.setItem('Voucher',JSON.stringify(card));
+		        	localStorage.Balance=parseInt(localStorage.Balance)+100;
+		        	document.getElementById('screen').innerHTML='You have successfully recharge your account with N100';	
+		        	inputLocker='off';
+					break;
+				}
+				else {
+					document.getElementById('screen').innerHTML='Sorry,but this airtime has already been used by you.';
+					break;
+				}
+            }
         }
         else if (document.getElementById('screen').innerHTML=='Loading...' && sea==false && seconds==0) {
         	document.getElementById('screen').innerHTML='Incorrect PIN entered,please check and try again';
