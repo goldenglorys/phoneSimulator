@@ -13,13 +13,13 @@
 	<button id="myBtn" class="btn btn-dark">Generate</button>
 	<div id="show" class="card bg-secondary col-md-3 mt-3"></div>
 	<div><input type="text" id="testing"></div>
-	<button onclick="dos()">h</button>
-	<button onclick="t()">testing</button>
+	<button onclick="loadSimulated()">h</button>
+	<button onclick="testStorage()">testing</button>
 </div>
 </body>
 <script type="text/javascript">
 var btn=document.getElementById('myBtn');
-	btn.onclick = function get() {
+	btn.onclick = function getestStorage() {
 		var cardlist=[];
 		var va=val.value;
 		cardAmt=[50,100,200,400,500,1000];
@@ -31,38 +31,48 @@ var btn=document.getElementById('myBtn');
 				b+=p;
 				for (amt = 0; amt < cardAmt.length; amt++) {
 			 	rand=cardAmt[Math.floor(Math.random() * cardAmt.length)];
+
 			    }
 			}
+			console.log(rand);
 			// var b=b.substring(0,4)+'-'+b.substring(4,8)+'-'+b.substring(8,12)+'-'+b.substring(12,16);
 			cardlist.push([b,'New',rand]);
 		}
 		document.getElementById('show').innerHTML=cardlist.join('<br/>');
-		 localStorage.setItem('Voucher',JSON.stringify(cardlist));
-		 retrievedData=localStorage.getItem('Voucher');
-		 card=JSON.parse(retrievedData);
+		if (localStorage.Voucher == undefined) {
+			localStorage.setItem('Voucher',JSON.stringify(cardlist));
+		}
+		else{
+			localStorage.setItem('Voucher',JSON.stringify(cardlist));
+		}
 	}
-	function dos(){
-		    retrievedData=localStorage.getItem('Voucher');
-		    card=JSON.parse(retrievedData);
-			for(v=0;v<card.length;v++){
-				if (testing.value==card[v][0]) {
-					alert('in good shape');
-					card[v][1]='Used';	
-					localStorage.setItem('Voucher',JSON.stringify(card));
-					break;
-				}
-				else{alert('bad shape');}
-		 }
-	}
-	function t() {
+	// function loadSimulated(){
+	// 	    retrievedData=localStorage.getItem('Voucher');
+	// 	    card=JSON.parse(retrievedData);
+	// 		for(v=0;v<card.length;v++){
+	// 			if (testing.value==card[v][0]) {
+	// 				alert(testing.value);
+	// 				alert('in good shape');
+	// 				card[v][1]='Used';	
+	// 				localStorage.setItem('Voucher',JSON.stringify(card));
+	// 				break;
+	// 			}
+	// 			else{alert('bad shape');}
+	// 	 }
+	// }
+
+	function testStorage() {
 		    retrievedData=localStorage.getItem('Voucher');
 		    card=JSON.parse(retrievedData);
 		    for (a=0;a<card.length;a++){
-		    	alert(card);
-		    	alert(card[a]);
-		    	alert(card[a][1]);
-		    	alert(typeof(card[a][2]));
+		    	// alert(card);
+		    	// alert(card[a]);
+		    	// alert(card[a][0]);
+		    	// alert(card[a][1]);
+		    	// alert(typeof(card[a][2]));
+		    	// alert(card.length);
 		    }
+		    alert(typeof(parseInt(localStorage.Balance)));
 	}
 </script>
 </html>
