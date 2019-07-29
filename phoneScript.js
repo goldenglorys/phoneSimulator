@@ -10,7 +10,7 @@ var simulatorArrayLists = [
 						];
 seconds = 6;
 inputLocker = "";
-line = "net";
+line = "netZero";
 firstList = "";
 secondList = "";
 thirdList = "";
@@ -47,7 +47,7 @@ function get(u) {
 function cut() {
   a.pause();
   t = callHour+":"+callMin+":"+callSec;
-  line = "net";
+  line = "netZero";
   inputLocker = "on";
 
   if(document.getElementById('screen').innerHTML == ''){
@@ -65,6 +65,7 @@ function cut() {
   
   else{
     document.getElementById('screen').innerHTML = '';
+    b.pause();
   } //else all other stuff on screen is cleared outta
 }
 
@@ -93,26 +94,31 @@ function go() {
 
   //if the screen isn't empty this blocks start to process acording to it condition
   else{
- //  if (document.getElementById('screen').innerHTML.length==11) {
- //  	callInput=document.getElementById('screen').innerHTML;
- //  	document.getElementById('screen').innerHTML='Calling....\n'+callInput;
- //  	inputLocker='off';
- //  }
- //  if (document.getElementById('screen').innerHTML=='Calling....\n'+callInput && localStorage.Balance>0 && seconds==0){document.getElementById('phone').removeAttribute('hidden',true);
- //  	document.getElementById('iphone').innerHTML='Incoming call from\nAlcatel Holder';
- //  	a.play();
- //  	inputLocker='off';
- //  }
- //  else if (document.getElementById('screen').innerHTML=='Calling....\n'+callInput && localStorage.Balance<=0 && seconds==0){
- //  	b.play();
- //  	inputLocker='off';
- //  	b.onended=function(){
- //  		b.pause();
- //  		cut();
- //  	}
- //  }
+    //calling code block begin here
+      if (document.getElementById('screen').innerHTML.length == 11 && 
+          document.getElementById('screen').innerHTML.slice(0,1) == '0') {
+      	callInput=document.getElementById('screen').innerHTML;
+      	document.getElementById('screen').innerHTML = 'Calling....\n'+callInput;
+      	inputLocker = 'off';
+      }
+      if (document.getElementById('screen').innerHTML == 'Calling....\n'+callInput && 
+        localStorage.Balance > 0 && seconds == 0){document.getElementById('phone').removeAttribute('hidden',true);
+      	document.getElementById('iphone').innerHTML = 'Incoming call from\nAlcatel Holder';
+      	a.play();
+      	inputLocker = 'off';
+      }
+      else if (document.getElementById('screen').innerHTML == 'Calling....\n'+callInput && 
+        localStorage.Balance <= 0 && seconds == 0){
+      	b.play();
+      	inputLocker = 'off';
+      	b.onended = function(){
+      		b.pause();
+      		cut();
+      	}
+      }
+    //calling code end here
 
-  //code block that help to load voucher begins here...
+  //code block that help to load voucher begin here...
     if(document.getElementById('screen').innerHTML.length == 22 && 
         document.getElementById('screen').innerHTML.slice(0,5) == '*555*'){
       	input = document.getElementById('screen').innerHTML;
@@ -150,191 +156,196 @@ function go() {
     }
     //...code block that helps to load voucher ends here!
 
- //    if(document.getElementById('screen').innerHTML=='*556#'){
- //    	acctBals='';
- //    	document.getElementById('screen').innerHTML='Requesting...';
- //    	inputLocker='off';
- //    	for (i=0;i<acctBal.length;i++) {
- //    		h=acctBal[i];
- //    		acctBals+=h;
- //    		if(i==4) {
- //    			break;
- //    		}
- //    	}
- //    }
- //    else if(document.getElementById('screen').innerHTML=='Requesting...' && seconds==0){
- //    	document.getElementById('screen').innerHTML='Your main acct balance is : N'+acctBals;
- //    	inputLocker='off';
- //    }
+  //code block to check account balance start
+    if(document.getElementById('screen').innerHTML == '*556#'){
+    	acctBals='';
+    	document.getElementById('screen').innerHTML = 'Requesting...';
+    	inputLocker = 'off';
+    	for (i = 0; i < acctBal.length; i++) {
+    		h = acctBal[i];
+    		acctBals += h;
+    		if(i == 4) {
+    			break;
+    		}
+    	}
+    }
+    if(document.getElementById('screen').innerHTML == 'Requesting...' && seconds == 0){
+    	document.getElementById('screen').innerHTML = 'Your main acct balance is : N'+acctBals;
+    	inputLocker = 'off';
+    }
+  //code block to check account balance end
 
- //    if(line=="net" && document.getElementById('screen').innerHTML=='*123#'){
- //    	document.getElementById('screen').innerHTML='Please wait...';
- //    	inputLocker='off';
- //    }
- //   if(document.getElementById('screen').innerHTML=='Please wait...' && seconds==0){
- //   	document.getElementById('screen').innerHTML=simulatorArrayLists[0][0];
- //   	inputLocker="off";
- //   }
- //   if (line=="net1") {
- //   	if (seconds==2) {
- //   		firstList=document.getElementById('screen').innerHTML;
- //   		document.getElementById('screen').innerHTML='Please wait...';
- //   		inputLocker='off';
- //   	}
- //   	if (seconds==0) {
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][0];
- //   		line="net2";
- //   		inputLocker='off';
- //   	}
- //   	else if(seconds==0 && firstList==7){
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][1];
- //   	}
- //   }
- //   if(line=="net3"){
- //   	if (seconds==2) {
- //   		secondList=document.getElementById('screen').innerHTML;
- //   		document.getElementById('screen').innerHTML='Please wait...';
- //   		inputLocker='off';
- //   	}
- //   	if (seconds==0 && secondList!=0) {
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][0];
- //   		if(firstList==7){
- //   			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][1];
- //   		}
- //   		line="net4";
- //   		inputLocker='off';
- //   	}
- //   	else if(seconds==0 && secondList==0){
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[0][0];
- //   		line="net2";
- //   		inputLocker='off';
- //   	}
- //   }
+  //code block of *123# begin here
+    if(line=="netZero" && document.getElementById('screen').innerHTML=='*123#'){
+    	document.getElementById('screen').innerHTML='Please wait...';
+    	inputLocker='off';
+      line = "net";
+    }
+    if(document.getElementById('screen').innerHTML=='Please wait...' && seconds==0){
+     	document.getElementById('screen').innerHTML=simulatorArrayLists[0][0];
+     	inputLocker="off";
+    }
+    if (line=="net1") {
+     	if (seconds==2) {
+     		firstList=document.getElementById('screen').innerHTML;
+     		document.getElementById('screen').innerHTML='Please wait...';
+     		inputLocker='off';
+     	}
+     	if (seconds==0) {
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][0];
+     		line="net2";
+     		inputLocker='off';
+     	}
+     	else if(seconds==0 && firstList==7){
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][1];
+     	}
+    }
+    if(line=="net3"){
+     	if (seconds==2) {
+     		secondList=document.getElementById('screen').innerHTML;
+     		document.getElementById('screen').innerHTML='Please wait...';
+     		inputLocker='off';
+     	}
+     	if (seconds==0 && secondList!=0) {
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][0];
+     		if(firstList==7){
+     			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][1];
+     		}
+     		line="net4";
+     		inputLocker='off';
+     	}
+     	else if(seconds==0 && secondList==0){
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[0][0];
+     		line="net2";
+     		inputLocker='off';
+     	}
+    }
+    if (line=="net5"){
+     	if (seconds==2) {
+     		thirdList=document.getElementById('screen').innerHTML;
+     		document.getElementById('screen').innerHTML='Please wait...';
+     		inputLocker='off';
+     	}
+     	if (seconds==0) {
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][0];
+     		if (firstList==2) {
+     			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList];
+     		}
+     		line="net6";
+     		inputLocker='off';
+     	}
+    }
+    if (line=="net7"){
+     	if (seconds==2) {
+     		fourtList=document.getElementById('screen').innerHTML;
+     		document.getElementById('screen').innerHTML='Please wait...';
+     		inputLocker='off';
+     	}
+     	if (seconds==0) {
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList];
+     		if (firstList==3) {
+     			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][1];
+     		}
+     		if (secondList==5) {
+     			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList][0];
+     		}
+     		if (secondList==7) {
+     			receiverNumber=prompt('Enter phone number here');
+     			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList]+ " " +receiverNumber;
+     		}
+     		line="net8";
+     		inputLocker='off';
+     	}
+    }
+    if (line=="net9"){
+     	if (seconds==2) {
+     		fifthList=document.getElementById('screen').innerHTML;
+     		document.getElementById('screen').innerHTML='Please wait...';
+     		inputLocker='off';
+     	}
+     	if (seconds==0) {
+     		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList][fifthList];
+     		line="net10";
+     		inputLocker='off';
+     	}
+    }
 
- //   if (line=="net5"){
- //   	if (seconds==2) {
- //   		thirdList=document.getElementById('screen').innerHTML;
- //   		document.getElementById('screen').innerHTML='Please wait...';
- //   		inputLocker='off';
- //   	}
- //   	if (seconds==0) {
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][0];
- //   		if (firstList==2) {
- //   			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList];
- //   		}
- //   		line="net6";
- //   		inputLocker='off';
- //   	}
- //   }
- //   if (line=="net7"){
- //   	if (seconds==2) {
- //   		fourtList=document.getElementById('screen').innerHTML;
- //   		document.getElementById('screen').innerHTML='Please wait...';
- //   		inputLocker='off';
- //   	}
- //   	if (seconds==0) {
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList];
- //   		if (firstList==3) {
- //   			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][1];
- //   		}
- //   		if (secondList==5) {
- //   			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList][0];
- //   		}
- //   		if (secondList==7) {
- //   			receiverNumber=prompt('Enter phone number here');
- //   			document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList]+ " " +receiverNumber;
- //   		}
- //   		line="net8";
- //   		inputLocker='off';
- //   	}
- //   }
- //   if (line=="net9"){
- //   	if (seconds==2) {
- //   		fifthList=document.getElementById('screen').innerHTML;
- //   		document.getElementById('screen').innerHTML='Please wait...';
- //   		inputLocker='off';
- //   	}
- //   	if (seconds==0) {
- //   		document.getElementById('screen').innerHTML=simulatorArrayLists[firstList][secondList][thirdList][fourtList][fifthList];
- //   		line="net10";
- //   		inputLocker='off';
- //   	}
- //   }
-
+  // code block of *123# end here
     if(seconds < 1){
       seconds = 3;
       return;
     }
     seconds--;
-    // alert(seconds);
     setTimeout('go()',1000);
   }	
 }
 
 function next() {
-		inputLocker="on"; 
+	inputLocker="on"; 
 	if (line=="net")  {
 		document.getElementById('screen').innerHTML="";
 		line="net1";
 	}
-    if (line=="net2") {
-    	document.getElementById('screen').innerHTML="";
-    	line="net3";
-    }
-    if (line=="net4") {
-    	document.getElementById('screen').innerHTML="";
-    	line="net5";
-    }
-    if (line=="net6") {
-    	document.getElementById('screen').innerHTML="";
-    	line="net7";
-    }
-    if (line=="net8") {
-    	document.getElementById('screen').innerHTML="";
-    	line="net9";
-    }
+  if (line=="net2") {
+  	document.getElementById('screen').innerHTML="";
+  	line="net3";
+  }
+  if (line=="net4") {
+  	document.getElementById('screen').innerHTML="";
+  	line="net5";
+  }
+  if (line=="net6") {
+  	document.getElementById('screen').innerHTML="";
+  	line="net7";
+  }
+  if (line=="net8") {
+  	document.getElementById('screen').innerHTML="";
+  	line="net9";
+  }
 }
 
-  function pickUp() {
-  	inputLocker="off";
-  	if (document.getElementById('iphone').innerHTML=='') {
-  		return;
-  	}
-  	else{
-    	a.pause();
-    	callSec++;
-    	amtSec++;
-        if (callSec==60) {
-        	callMin++;
-        	callSec=0;
-        	if (callMin==60) {
-        		callHour++;
-        		callMin=0;
-        	}
-        }
-        document.getElementById('screen').innerHTML=callHour+":"+callMin+":"+callSec;
-        document.getElementById('iphone').innerHTML=callHour+":"+callMin+":"+callSec;
-        if(document.getElementById('screen').innerHTML==callHour+":"+callMin+":"+callSec) {
-        	inputLocker='off';
-            localStorage.Balance-=0.11;
-              amtUsed = amtSec * 0.11;
-            console.log(amtUsed);
-        	if (localStorage.Balance<=0) {
-        		localStorage.Balance=0;
-        		alert('The duration of your last call is'+' '+amtSec+' '+'secs. and you have been charged with N'+amtUsed+' '+'for it.');
-        	}
-        }
-        if (localStorage.Balance==0) {
-        	document.getElementById('screen').innerHTML='Call Ended';
-        	document.getElementById('iphone').innerHTML='Call Ended'; 
-        	b.play();
-        	b.oncanplaythrough=function(){
-        		b.pause();
-        		document.getElementById('screen').innerHTML='';
-        		document.getElementById('iphone').innerHTML='';
-        		return;
-        	}
-        }
+
+function pickUp() {
+  inputLocker="off";
+  if (document.getElementById('iphone').innerHTML == '') {
+    document.getElementById('iphone').innerHTML == '';
+		return;
+	}
+	else{
+  	a.pause();
+  	callSec++;
+  	amtSec++;
+      if (callSec==60) {
+      	callMin++;
+      	callSec=0;
+      	if (callMin==60) {
+      		callHour++;
+      		callMin=0;
+      	}
       }
-      tim=setTimeout('pickUp()',1000);
+      document.getElementById('screen').innerHTML=callHour+":"+callMin+":"+callSec;
+      document.getElementById('iphone').innerHTML=callHour+":"+callMin+":"+callSec;
+      if(document.getElementById('screen').innerHTML==callHour+":"+callMin+":"+callSec) {
+      	inputLocker='off';
+        localStorage.Balance-=0.11;
+        amtUsed = amtSec * 0.11;
+        console.log(amtUsed);
+      	if (localStorage.Balance<=0) {
+      		localStorage.Balance=0;
+      		alert('The duration of your last call is'+' '+amtSec+' '+'secs. and you have been charged with N'+amtUsed+' '+'for it.');
+      	}
+      }
+      if (localStorage.Balance==0) {
+      	document.getElementById('screen').innerHTML='Call Ended';
+      	document.getElementById('iphone').innerHTML='Call Ended'; 
+      	b.play();
+      	b.oncanplaythrough=function(){
+      		b.pause();
+      		document.getElementById('screen').innerHTML='';
+      		document.getElementById('iphone').innerHTML='';
+      		return;
+      	}
+      }
   }
+  tim=setTimeout('pickUp()',1000);
+}
