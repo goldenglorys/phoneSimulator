@@ -108,7 +108,7 @@ function go() {
       	inputLocker = 'off';
       }
       else if (document.getElementById('screen').innerHTML == 'Calling....\n'+callInput && 
-        localStorage.Balance <= 0 && seconds == 0){
+        localStorage.Balance <= 0 || localStorage.Balance == undefined && seconds == 0){
       	b.play();
       	inputLocker = 'off';
       	b.onended = function(){
@@ -161,17 +161,23 @@ function go() {
     	acctBals='';
     	document.getElementById('screen').innerHTML = 'Requesting...';
     	inputLocker = 'off';
-    	for (i = 0; i < acctBal.length; i++) {
-    		h = acctBal[i];
-    		acctBals += h;
-    		if(i == 4) {
-    			break;
-    		}
-    	}
     }
     if(document.getElementById('screen').innerHTML == 'Requesting...' && seconds == 0){
-    	document.getElementById('screen').innerHTML = 'Your main acct balance is : N'+acctBals;
-    	inputLocker = 'off';
+      if(localStorage.Balance == undefined) {
+        document.getElementById('screen').innerHTML = 'Your main acct balance is : N0.00. Please go to Voucher link and generate then load to recharge your account'
+        inputLocker = 'off';
+      } 
+      else {
+        for (i = 0; i < acctBal.length; i++) {
+          h = acctBal[i];
+          acctBals += h;
+          if(i == 4) {
+            break;
+          }
+        }
+      	document.getElementById('screen').innerHTML = 'Your main acct balance is : N'+acctBals;
+      	inputLocker = 'off';
+      }
     }
   //code block to check account balance end
 
