@@ -25,6 +25,7 @@ amtSec = -1;
 amtUsed = '';
 a = new Audio("sound/champ.mp3");
 b = new Audio("sound/lowcredit.mp3");
+callEnded = false;
 
 
 function get(u) { 
@@ -319,39 +320,46 @@ function pickUp() {
 	}
 	else{
   	a.pause();
-  	callSec++;
-  	amtSec++;
-      if (callSec==60) {
-      	callMin++;
-      	callSec=0;
-      	if (callMin==60) {
-      		callHour++;
-      		callMin=0;
-      	}
-      }
+    if(!callEnded){
+    	callSec++;
+    	amtSec++;
+        if (callSec==60) {
+        	callMin++;
+        	callSec=0;
+        	if (callMin==60) {
+        		callHour++;
+        		callMin=0;
+        	}
+        }
+    }
       document.getElementById('screen').innerHTML=callHour+":"+callMin+":"+callSec;
       document.getElementById('iphone').innerHTML=callHour+":"+callMin+":"+callSec;
       if(document.getElementById('screen').innerHTML==callHour+":"+callMin+":"+callSec) {
       	inputLocker='off';
-        localStorage.Balance-=0.11;
-        amtUsed = amtSec * 0.11;
+
+        //this checks if the balance is exhausted to stop deducting 
+        if(!callEnded){
+          localStorage.Balance-=0.11;
+          amtUsed = amtSec * 0.11;
+        }
         console.log(amtUsed);
-      	if (localStorage.Balance<=0) {
-      		localStorage.Balance=0;
-      		alert('The duration of your last call is'+' '+amtSec+' '+'secs. and you have been charged with N'+amtUsed+' '+'for it.');
-      	}
       }
-      if (localStorage.Balance==0) {
-      	document.getElementById('screen').innerHTML='Call Ended';
+
+      //code that monitor the voucher balance and optimize it usage START
+      if (localStorage.Balance<=0) {
+        callEnded = true;
+        localStorage.Balance=0;
+        	document.getElementById('screen').innerHTML='Call Ended';
       	document.getElementById('iphone').innerHTML='Call Ended'; 
       	b.play();
       	b.oncanplaythrough=function(){
       		b.pause();
-      		document.getElementById('screen').innerHTML='';
+      		document.getElementById('screen').innerHTML='The duration of your last call is'+' '+amtSec+' '+'secs. and you have been charged with N'+amtUsed+' '+'for it.';
       		document.getElementById('iphone').innerHTML='';
       		return;
       	}
       }
+      //END
   }
-  tim=setTimeout('pickUp()',1000);
+   tim=setTimeout('pickUp()',1000);
 }
